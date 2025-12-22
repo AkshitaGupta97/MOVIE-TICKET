@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <div className="fixed top-0 left-0 z-50 w-full flex items-center justify-between px-6 md:px-16 lg:px-36 py-5">
       <Link className='max-md:flex-1'>
-        <p className='w-44 h-auto text-2xl'> Movie<span className='text-pink-600'>Mate</span>🎬</p>
+        <p onClick={() => navigate('/')} className='w-44 h-auto text-2xl'> Movie<span className='text-pink-600'>Mate</span>🎬</p>
       </Link>
 
       <div className={`max-md:absolute max-md:top-0 max-md:left-0 max-md:front-medium max-md:text-lg z-50 flex flex-col 
