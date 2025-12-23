@@ -8,7 +8,7 @@ function HeroSection() {
       className="flex flex-col items-start justify-center gap-4 px-6 md:px-16 lg:px-36
        bg-cover bg-center h-screen text-white bg-[url('https://www.shutterstock.com/image-vector/festive-design-cinema-film-strip-600nw-1464459368.jpg')]"
     >
-      <h1 className="text-4xl font-bold ">Whispers in the Static</h1>
+      <h1 className="text-4xl font-bold text-amber-400 ">Whispers in the Static</h1>
 
       <div className="flex items-center gap-4 text-pink-200">
         <span>Action | Adventure | Thrilled</span>

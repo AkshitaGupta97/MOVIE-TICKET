@@ -13,7 +13,7 @@ function FeaturedSection() {
         <BlurCircle top='0px' right='80px'/>
         <BlurCircle top='0px' left='20px'/>
         <div className="flex items-center justify-between w-full px-6 md:px-16 lg:px-24 xl-px-44 overflow-hidden">
-          <p className="text-pink-100 font-medium text-2xl">Trendy Movies</p>
+          <p className="text-amber-300  font-medium text-2xl">Trendy Movies</p>
           <button onClick={() => navigate('/movies')}
             className="group flex items-center gap-2 text-md text-gray-300 cursor-pointer border-1 px-1 py-1.5 rounded-full">
             Watch All

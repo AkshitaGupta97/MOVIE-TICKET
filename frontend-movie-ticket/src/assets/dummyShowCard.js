@@ -87,7 +87,7 @@ export const dummyShowData = [
     },
     {
         _id: "8",
-        backdrop_path: "https://tse4.mm.bing.net/th/id/OIP.tP05jBjoPE5oRCag5Lkr7QHaM9?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+        backdrop_path: "https://m.media-amazon.com/images/M/MV5BYTFiOTI4MGYtODQ0Mi00YTNhLTk5NTAtYTNmYjM5YmZiNTdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         title: "Echoes of Tomorrow",
         release_date: "2025-06-05",
         genres: [
