@@ -10,7 +10,7 @@ export const dummyShowData = [
             { id: 14, name: "Fantasy" },
             { id: 28, name: "Action" }
         ],
-        runtime: "142 min",
+        runtime: "142",
         vote_average: 7.8
     },
     {
@@ -22,7 +22,7 @@ export const dummyShowData = [
             { id: 35, name: "Comedy" },
             { id: 18, name: "Drama" }
         ],
-        runtime: "98 min",
+        runtime: "98",
         vote_average: 8.5
     },
     {
@@ -34,7 +34,7 @@ export const dummyShowData = [
             { id: 878, name: "Science Fiction" },
             { id: 28, name: "Action" }
         ],
-        runtime: "125 min",
+        runtime: "125",
         vote_average: 6.9
     },
     {
@@ -46,7 +46,7 @@ export const dummyShowData = [
             { id: 27, name: "Horror" },
             { id: 9648, name: "Mystery" }
         ],
-        runtime: "110 min",
+        runtime: "110",
         vote_average: 7.2
     },
     {
@@ -58,7 +58,7 @@ export const dummyShowData = [
             { id: 53, name: "Thriller" },
             { id: 12, name: "Adventure" }
         ],
-        runtime: "118 min",
+        runtime: "118",
         vote_average: 7.5
     },
     {
@@ -70,7 +70,7 @@ export const dummyShowData = [
             { id: 18, name: "Drama" },
             { id: 14, name: "Fantasy" }
         ],
-        runtime: "134 min",
+        runtime: "134",
         vote_average: 8.1
     },
     {
@@ -82,7 +82,7 @@ export const dummyShowData = [
             { id: 80, name: "Crime" },
             { id: 53, name: "Thriller" }
         ],
-        runtime: "102 min",
+        runtime: "102",
         vote_average: 7.0
     },
     {
@@ -94,7 +94,7 @@ export const dummyShowData = [
             { id: 878, name: "Science Fiction" },
             { id: 18, name: "Drama" }
         ],
-        runtime: "128 min",
+        runtime: "128",
         vote_average: 8.3
     },
     {
@@ -107,7 +107,7 @@ export const dummyShowData = [
             { id: 28, name: "Action" },
             { id: 9648, name: "Mystery" }
         ],
-        runtime: "116 min",
+        runtime: "116",
         vote_average: 7.6
     },
     {
@@ -119,7 +119,7 @@ export const dummyShowData = [
             { id: 27, name: "Horror" },
             { id: 53, name: "Thriller" }
         ],
-        runtime: "104 min",
+        runtime: "104",
         vote_average: 6.8
     },
     {
@@ -131,7 +131,7 @@ export const dummyShowData = [
             { id: 878, name: "Science Fiction" },
             { id: 12, name: "Adventure" }
         ],
-        runtime: "131 min",
+        runtime: "131",
         vote_average: 7.9
     },
     {
@@ -143,7 +143,7 @@ export const dummyShowData = [
             { id: 10402, name: "Music" },
             { id: 18, name: "Drama" }
         ],
-        runtime: "115 min",
+        runtime: "115",
         vote_average: 8.2
     },
     {
@@ -155,7 +155,7 @@ export const dummyShowData = [
             { id: 28, name: "Action" },
             { id: 80, name: "Crime" }
         ],
-        runtime: "122 min",
+        runtime: "122",
         vote_average: 7.1
     },
     {
@@ -167,7 +167,7 @@ export const dummyShowData = [
             { id: 12, name: "Adventure" },
             { id: 18, name: "Drama" }
         ],
-        runtime: "138 min",
+        runtime: "138",
         vote_average: 8.0
     },
     {
@@ -179,7 +179,7 @@ export const dummyShowData = [
             { id: 878, name: "Science Fiction" },
             { id: 53, name: "Thriller" }
         ],
-        runtime: "124 min",
+        runtime: "124",
         vote_average: 7.7
     }
 ];

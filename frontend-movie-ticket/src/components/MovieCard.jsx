@@ -1,6 +1,7 @@
 
 import { StarIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
+import timeFormat from '../lib/timeFormat';
 
 function MovieCard({ movie }) {
   const navigate = useNavigate();
@@ -8,14 +9,14 @@ function MovieCard({ movie }) {
     <div className='flex flex-col justify-between p-3 bg-gray-800 rounded-2xl hover:translate-y-1 
     transition duration-300 w-66'>
 
-      <img onClick={() => { navigate(`/movie/${movie._id}`); scrollTo(0, 0) }}
+      <img onClick={() => { navigate(`/movies/${movie._id}`); scrollTo(0, 0) }}
         src={movie.backdrop_path} alt="movieCard" className='rounded-lg h-52 w-full object-cover 
-        object-bottom-right cursor-pointer' />
+        object-bottom-right object-fill cursor-pointer' />
 
       <p className='font-semibold mt-2 truncate'>{movie.title}</p>
-      <p className='text-sm text-gray-400 mt-2'>
+      <p className='text-sm text-yellow-400 mt-2'>
         {new Date(movie.release_date).getFullYear()} {movie.genres.slice(0, 2)
-          .map(genre => genre.name).join(" | ")} {movie.runtime}
+          .map(genre => genre.name).join(" | ")} <span className='text-blue-500 font-semibold'>{timeFormat(movie.runtime)}</span>
       </p>
 
       <div className='flex items-center justify-between mt-4 pb-3'>
