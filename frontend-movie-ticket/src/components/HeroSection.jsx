@@ -25,11 +25,11 @@ function HeroSection() {
         A chilling line for a mystery or psychological thriller".
       </p>
       <button onClick={() => navigate("/movies")}
-       className="flex items-center gap-1 px-6 py-3 text-md bg-pink-700 hover:bg-pink-800
+       className="group flex items-center gap-1 px-6 py-3 mt-4 text-md bg-pink-700 hover:bg-pink-800
         transition rounded-2xl font-medium cursor-pointer
       ">
         Explore Movies
-        <ArrowRight className="w-5 h-5" />
+        <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition" />
       </button>
 
     </div>
