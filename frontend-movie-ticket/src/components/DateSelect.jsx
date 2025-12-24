@@ -7,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 
 const DateSelect = ({dateTime, id}) => {
 
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState(null);  // Keeps track of which date the user clicked.
     const navigate = useNavigate();
 
     const onBookHandler = () => {
-        if(!selected) {
+        if(!selected) {  //If no date is chosen → shows a toast message.
             return toast("Please select a date...")
         }
-        navigate(`/movies/${id}/${selected}`)
+        navigate(`/movies/${id}/${selected}`) // navigates to a booking page for that movie and date.
         scrollTo(0,0);
     }
 
@@ -25,24 +25,24 @@ const DateSelect = ({dateTime, id}) => {
             <BlurCircle top="-100px" left="-100px" />
             <BlurCircle top="100px" right="0px" />
             <div >
-                <p className="text-lg font-semibold">Choose Date</p>
+                <p className="text-2xl text-amber-400 font-semibold">Choose Date</p>
                 <div className="flex items-center gap-6 text-sm mt-5">
-                    <ChevronLeftIcon width={28} />
+                    <ChevronLeftIcon width={36} />
                     <span className="grid grid-cols-3 md:flex flex-wrap md:max-w-lg gap-4">
                         {
-                            Object.keys(dateTime).map((date) => (
-                                <button key={date} onClick={() => setSelected(true)}
+                            Object.keys(dateTime).map((date) => (  // - Loops through all keys in dateTime (which are date strings like "2025-01-05").
+                                <button key={date} onClick={() => setSelected(date)}
                                 className={`flex flex-col items-center justify-center
                                 h-14 w-14 aspect-square rounded cursor-pointer 
                                 ${selected === date ? "bg-primary text-white" : "border border-primary"} `}>
-                                    <span>{new Date(date).getDate()}</span>
-                                    <span>{new Date(date).toLocaleDateString("en-US",
+                                    <span>{new Date(date).getDate()}</span>  {/* Day of the month - getDate()*/}
+                                    <span>{new Date(date).toLocaleDateString("en-US",  
                                         {month:"short"})}</span>
                                 </button>
                             ))
                         }
                     </span>
-                    <ChevronRightIcon width={28} />
+                    <ChevronRightIcon width={36} />
                 </div>
             </div>
             <button onClick={onBookHandler}
