@@ -37,11 +37,11 @@ function MovieDetails() {
 
         <div className="relative flex flex-col gap-3">
           <BlurCircle top="-100px" left="-100px" />
-          <p className="text-amber-300">ENGLISH</p>
-          <h1 className="text-4xl font-semibold max-w-90 text-balance">{show.movie.title}</h1>
+          <p className="text-gray-300">ENGLISH</p>
+          <h1 className="text-4xl text-amber-300 font-semibold max-w-90 text-balance">{show.movie.title}</h1>
           <div className="flex items-center gap-2 text-gray-300">
             <StarIcon className="w-5 h-5 text-amber-400 fill-amber-300" />
-            {show.movie.vote_average.toFixed(1)} <span className="text-orange-200">User Rating</span>
+            {show.movie.vote_average.toFixed(1)} <span className="text-orange-300">User Rating</span>
           </div>
           <p>{show.movie.overview}</p>
           <p>
@@ -55,7 +55,7 @@ function MovieDetails() {
               <PlayCircleIcon className="w-5 h-5" />
               Watch Trailer
             </button>
-            <a href="#dateSelect" className="px-10 py-3 text-sm bg-pink-500 hover:bg-pink-600 transition rounded-md 
+            <a href="#dateSelect" className="px-10 py-3 text-sm bg-pink-600 hover:bg-pink-700 transition rounded-md 
             font-medium cursor-pointer active:scale-95">Buy Tickets</a>
             <button className="bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95">
               <Heart className={`w-5 h-5`} />
@@ -84,7 +84,7 @@ function MovieDetails() {
 
       <DateSelect dateTime={show.dateTime} id={id} />
 
-      <p className="text-2xl text-amber-500 font-medium mt-20 mb-8">Discover them...</p>
+      <p className="text-2xl text-amber-500 font-medium mt-20 mb-8">Discover more...</p>
       <div className="flex flex-wrap max-sm:justify-center gap-8">
         {
           dummyShowData.slice(0, 4).map((movie, index) => (
@@ -92,10 +92,10 @@ function MovieDetails() {
           ))
         }
       </div>
-
+      <BlurCircle top="20px" right="10px" />
       <div className="flex justify-center mt-20">
         <button onClick={() => { navigate("/movies"); scrollTo(0, 0) }}
-          className="px-10 py-3 text-sm bg-primary hover:bg-pink-700 transition rounded-md
+          className="px-10 py-3 my-1.5 text-sm bg-pink-600 hover:bg-pink-700 transition rounded-md
         font-medium cursor-pointer">
           Show more
         </button>

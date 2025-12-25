@@ -6,11 +6,11 @@ import timeFormat from '../lib/timeFormat';
 function MovieCard({ movie }) {
   const navigate = useNavigate();
   return (
-    <div className='flex flex-col justify-between p-3 bg-gray-800 rounded-2xl hover:translate-y-1 
+    <div className='flex flex-col justify-between p-3 border-amber-400  border-1 bg-gray-800 rounded-2xl hover:translate-y-1 
     transition duration-300 w-66'>
 
       <img onClick={() => { navigate(`/movies/${movie._id}`); scrollTo(0, 0) }}
-        src={movie.backdrop_path} alt="movieCard" className='rounded-lg h-52 w-full object-cover 
+        src={movie.backdrop_path} alt="movieCard" className='rounded-lg h-52 w-full
         object-bottom-right object-fill cursor-pointer' />
 
       <p className='font-semibold mt-2 truncate'>{movie.title}</p>

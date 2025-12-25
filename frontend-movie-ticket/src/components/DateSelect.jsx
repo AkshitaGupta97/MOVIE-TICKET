@@ -4,7 +4,6 @@ import { useState } from "react"
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-
 const DateSelect = ({dateTime, id}) => {
 
     const [selected, setSelected] = useState(null);  // Keeps track of which date the user clicked.
@@ -56,3 +55,36 @@ const DateSelect = ({dateTime, id}) => {
 }
 
 export default DateSelect
+
+/*
+1. Object.keys(dateTime).map((date) => ( ... ))
+- dateTime is an object where each property key is a date string (like "2025-01-05") and the value is an array of showtimes.
+- Object.keys(dateTime) extracts all those keys into an array:
+["2025-01-05", "2025-01-06", "2025-01-07", ...]
+- .map((date) => ( ... )) loops through each date string and returns JSX for it.
+
+2. <button key={date} onClick={() => setSelected(date)} ... >
+- For each date, a button is created.
+- key={date} → React requires a unique key when rendering lists. Here, the date string itself is unique.
+- onClick={() => setSelected(date)} → when the button is clicked, it updates the selected state with that date string.
+
+3. className={...}
+className={`flex flex-col items-center justify-center
+  h-14 w-14 aspect-square rounded cursor-pointer  
+  ${selected === date ? "bg-primary text-white" : "border border-primary"} `}
+
+
+- TailwindCSS classes style the button as a small square tile.
+- The last part is conditional styling:
+- If the currently selected date equals this button’s date → apply "bg-primary text-white" (highlighted).
+- Otherwise → apply "border border-primary" (default look).
+
+
+✅ What the whole code does
+It generates a grid of clickable date buttons from your dummyDateTimeData.
+Each button shows:
+- The day of the month (e.g., 5)
+- The month abbreviation (e.g., Jan)
+When clicked, the button updates the selected state, and the selected button gets highlighted.
+
+ */
