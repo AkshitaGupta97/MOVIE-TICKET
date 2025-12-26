@@ -14,6 +14,7 @@
 body{
     color: white;
     background-color: #09090b;
+    overflow-x: hidden;
 }
 .no-scrollbar {
     scrollbar-width: none;
