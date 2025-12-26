@@ -9,6 +9,12 @@ import Favourite from "./pages/Favourite"
 import {Toaster} from 'react-hot-toast'
 import Footer from "./components/Footer"
 
+import Layout from "./ADMIN/Layout"
+import Dashboard from "./ADMIN/Dashboard"
+import AddShow from "./ADMIN/AddShow"
+import ListShow from "./ADMIN/ListShow"
+import ListBookings from "./ADMIN/ListBookings"
+
 function App() {
 
   const isAdminRoute = useLocation().pathname.startsWith('/admin'); // it means we aere in admin page, and  in admin page we won't show Navbar and Footer
@@ -25,6 +31,15 @@ function App() {
         <Route path="/movies/:id/:date" element={<SeatLayout />} />
         <Route path="/my-bookings" element={<MyBooking />} />
         <Route path="/favourite" element={<Favourite />} />
+
+        {/* Route for Admin [/admin/*] after(/*) if we add any path we display same layout */}
+        <Route path="/admin/*" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="add-shows" element={<AddShow />} />
+          <Route path="list-shows" element={<ListShow />} />
+          <Route path="list-booking" element={<ListBookings />} />
+        </Route>
+
       </Routes>
 
       {!isAdminRoute && <Footer />}
