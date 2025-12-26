@@ -34,7 +34,7 @@ function App() {
 
         {/* Route for Admin [/admin/*] after(/*) if we add any path we display same layout */}
         <Route path="/admin/*" element={<Layout />}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<Dashboard />} />   {/* - The index route is the default child route. When you visit /admin, it will render <Dashboard /> inside <Layout />.*/}
           <Route path="add-shows" element={<AddShow />} />
           <Route path="list-shows" element={<ListShow />} />
           <Route path="list-booking" element={<ListBookings />} />
