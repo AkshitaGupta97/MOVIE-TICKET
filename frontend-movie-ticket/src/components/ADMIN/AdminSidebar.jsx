@@ -27,12 +27,12 @@ function AdminSidebar() {
           adminNavLinks.map((link, index) => (
             <NavLink key={index} to={link.path} end
             className={({isActive}) => `relative flex items-center max-md:justify-center gap-2 w-full py-2.5 min-md:pl-10 
-            first:mt-6 text-gary-400 ${isActive && 'bg-pink-600 border-r-4 rounded border-blue-600 text-gray-300 group'}`}>
+              first:mt-6 text-gary-400 ${isActive && 'bg-pink-700 border-r-4 rounded border-gray-600 text-gray-300 group'}`}>
               {({isActive}) => (
                 <>  
                   <link.icon className="w-6 h-6" />
                   <p className="max-md:hidden">{link.name}</p>
-                  <span className={`w-2 h-10 rounded-1 right-0 absolute ${isActive && 'bg-pink-600'}`}></span>
+                  <span className={`w-2 h-10 rounded-1 right-0 absolute ${isActive && 'bg-pink-700'}`}></span>
                 </>
               )}
             </NavLink>
