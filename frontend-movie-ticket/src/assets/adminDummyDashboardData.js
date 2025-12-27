@@ -12,7 +12,7 @@ const adminDummyDashboardData = {
         vote_average: 8.8
       },
       showPrice: 250,
-      showDateTime: "2025-01-15T19:30:00Z"
+      showDateTime: "2025-01-15"
     },
     {
       _id: "show2",
@@ -22,7 +22,7 @@ const adminDummyDashboardData = {
         vote_average: 8.6
       },
       showPrice: 300,
-      showDateTime: "2025-01-20T20:00:00Z"
+      showDateTime: "2025-01-20"
     },
     {
       _id: "show3",
@@ -32,7 +32,7 @@ const adminDummyDashboardData = {
         vote_average: 9.0
       },
       showPrice: 280,
-      showDateTime: "2025-01-25T18:00:00Z"
+      showDateTime: "2025-01-25"
     },
     {
       _id: "show4",
@@ -42,7 +42,7 @@ const adminDummyDashboardData = {
         vote_average: 7.9
       },
       showPrice: 320,
-      showDateTime: "2025-01-28T21:00:00Z"
+      showDateTime: "2025-01-28"
     },
     {
       _id: "show5",
@@ -52,7 +52,7 @@ const adminDummyDashboardData = {
         vote_average: 8.3
       },
       showPrice: 270,
-      showDateTime: "2025-02-02T17:00:00Z"
+      showDateTime: "2025-02-02"
     },
     {
       _id: "show6",
@@ -62,7 +62,7 @@ const adminDummyDashboardData = {
         vote_average: 8.5
       },
       showPrice: 350,
-      showDateTime: "2025-02-05T20:30:00Z"
+      showDateTime: "2025-02-05"
     }
   ]
 };

@@ -4,7 +4,7 @@ import adminDummyDashboardData from "../assets/adminDummyDashboardData";
 import { Loading } from "../components/Loading";
 import Title from "../components/ADMIN/Title";
 import BlurCircle from "../components/BlurCircle";
-import dateFormat from "../lib/dateFormat";
+//import dateFormat from "../lib/dateFormat";
 
 function Dashboard() {
 
@@ -72,7 +72,7 @@ function Dashboard() {
                   {show.movie.vote_average.toFixed(1)}
                 </p>
               </div>
-              <p className="px-2 pt-2 text-sm text-gray-300">{dateFormat(show.showDateTime)}</p>
+              <p className="px-2 pt-2 text-sm text-gray-300">{show.showDateTime}</p> {/* {dateFormat(show.showDateTime)} */}
             </div>
           ))}
       </div>
