@@ -140,6 +140,9 @@ function AddShow() {
             </div>
           )
         }
+        <button className="bg-pink-700 text-white px-8 py-2 mt-6 rounded hover:bg-pink-800 transition-all cursor-pointer">
+          Add Show
+        </button>
 
     </>
   ) : 
