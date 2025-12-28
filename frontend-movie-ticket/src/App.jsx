@@ -37,7 +37,7 @@ function App() {
           <Route index element={<Dashboard />} />   {/* - The index route is the default child route. When you visit /admin, it will render <Dashboard /> inside <Layout />.*/}
           <Route path="add-shows" element={<AddShow />} />
           <Route path="list-shows" element={<ListShow />} />
-          <Route path="list-booking" element={<ListBookings />} />
+          <Route path="list-bookings" element={<ListBookings />} />
         </Route>
 
       </Routes>

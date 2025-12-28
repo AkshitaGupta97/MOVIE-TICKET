@@ -11,7 +11,7 @@ export const dummyShowData = [
             { id: 14, name: "Fantasy" },
             { id: 28, name: "Action" }
         ],
-        runtime: "142",
+        runtime: "1142",
         vote_average: 7.8,
         overview: "A forgotten realm resurfaces as heroes embark on a perilous quest to reclaim the throne.",
         casts: [
@@ -49,7 +49,7 @@ export const dummyShowData = [
             { id: 878, name: "Science Fiction" },
             { id: 28, name: "Action" }
         ],
-        runtime: "125",
+        runtime: "1205",
         vote_average: 6.9,
         overview: "An interstellar conflict threatens the galaxy as rebels rise against a tyrannical empire.",
         casts: [
@@ -106,7 +106,7 @@ export const dummyShowData = [
             { id: 18, name: "Drama" },
             { id: 14, name: "Fantasy" }
         ],
-        runtime: "134",
+        runtime: "1934",
         vote_average: 8.1,
         overview: "A journey through dreams and reality where imagination becomes destiny.",
         casts: [
@@ -125,7 +125,7 @@ export const dummyShowData = [
             { id: 80, name: "Crime" },
             { id: 53, name: "Thriller" }
         ],
-        runtime: "102",
+        runtime: "1002",
         vote_average: 7.0,
         overview: "Crime and chaos unfold under the neon lights of a futuristic city.",
         casts: [
@@ -220,7 +220,7 @@ export const dummyShowData = [
             { id: 10402, name: "Music" },
             { id: 18, name: "Drama" }
         ],
-        runtime: "115",
+        runtime: "1195",
         vote_average: 8.2,
         overview: "A gifted musician struggles to compose one final masterpiece before losing his hearing.",
         casts: [

@@ -34,8 +34,9 @@ function Dashboard() {
     fetchDashBoardData()
   }, []);
 
-  return !loading ? (
+  return !loading? (
     <>
+    abg
       <Title text1="Admin" text2="Dashboard" />
 
       <div className="relative flex flex-wrap gap-4 mt-6">
@@ -49,7 +50,7 @@ function Dashboard() {
                   <h1 className="text-lg text-pink-400">{card.title}</h1>
                   <p className="text-xl font-medium mt-1">{card.value}</p>
                 </div>
-                <card.icon w-6 h-6 />
+                <card.icon className="w-6 h-6" />
               </div>
             ))
           }
