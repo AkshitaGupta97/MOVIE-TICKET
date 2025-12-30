@@ -57,7 +57,7 @@ function AddShow() {
   return nowPlayingMovies.length > 0 ? (
     <>
       <Title text1="Add" text2="Shows" />
-      <p className="mt-10 tetx-lg font-lg">Now Playing Movies</p>
+      <p className="mt-10 text-lg font-lg">Now Playing Movies</p>
       <div className="overflow-x-auto pb-4">
         <div className="group flex flex-wrap gap-4 mt-4 w-max">
           {
