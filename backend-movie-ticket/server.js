@@ -5,11 +5,14 @@ import connectDB from "./config/db.js";
 import { clerkMiddleware } from '@clerk/express'
 import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js"
+import dotenv from "dotenv"
 
 const app = express();
 const port = 3000;
 // add database
 await connectDB();
+
+dotenv.config();
 
 // middleware
 app.use(express.json());
