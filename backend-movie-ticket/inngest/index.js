@@ -1,5 +1,6 @@
 import { Inngest } from "inngest";
 import User from "../modals/User.js";
+import connectDB from "../config/db.js";
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "movieTicket" });
 // Creates an Inngest client named "movieTicket". This client is used to define functions that respond to events.
@@ -9,6 +10,7 @@ const syncUserCreation = inngest.createFunction(
     {id: 'sync-user-from-clerk'},
     {event: 'clerk/user.created'},
     async ({event}) => {
+        await connectDB();
         const {id, first_name, last_name, email_addresses, image_url} = event.data.user; // user comes from clerk
         const userData = {
             _id: id,
@@ -25,6 +27,7 @@ const syncUserCreation = inngest.createFunction(
 const syncUserDeletion = inngest.createFunction(
     {id: 'delete-user-with-clerk'},
     {event: 'clerk/user.deleted'},
+    await connectDB();
     async ({event}) => {
         const {id} = event.data.user
         await User.findByIdAndDelete(id)
@@ -36,6 +39,7 @@ const syncUserDeletion = inngest.createFunction(
 const syncUserUpdation = inngest.createFunction(
     {id: 'update-user-from-clerk'},
     {event: 'clerk/user.updated'},
+    await connectDB();
     async ({event}) => {
         const {id, first_name, last_name, email_addresses, image_url} = event.data.user
         const userData = {
