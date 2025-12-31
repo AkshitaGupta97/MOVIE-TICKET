@@ -12,23 +12,25 @@ const port = 3000;
 
 dotenv.config();
 
-// add database
-await connectDB();
+const startServer = async () => {
+    // add database
+    await connectDB();
 
-// middleware
-app.use(express.json());
-app.use(cors()); // helps to easily connect api from frontend to backend 
-// adding clerk
-app.use(clerkMiddleware());
+    // middleware
+    app.use(express.json());
+    app.use(cors()); // helps to easily connect api from frontend to backend 
+    // adding clerk
+    app.use(clerkMiddleware());
 
-// api routes
-app.get('/', (req, res) => res.send('Server is live'));
+    // api routes
+    app.get('/', (req, res) => res.send('Server is live'));
 
-//API-ROUTES
-// Set up the "/api/inngest" (recommended) routes with the serve handler
-app.use("/api/inngest", serve({ client: inngest, functions }));
+    //API-ROUTES
+    // Set up the "/api/inngest" (recommended) routes with the serve handler
+    app.use("/api/inngest", serve({ client: inngest, functions }));
 
-app.listen(port, () => console.log(`server is at http://localhost:${port}`));
-
+    app.listen(port, () => console.log(`server is at http://localhost:${port}`));
+}
+startServer();
 //nodemon =>  helps to restart the server when we make any changes [npm run server]
 // mongodb+srv://AkshitaGuptaProjects:<db_password>@cluster0.eqxxxzn.mongodb.net/?appName=Cluster0  pass-> movieTicket90

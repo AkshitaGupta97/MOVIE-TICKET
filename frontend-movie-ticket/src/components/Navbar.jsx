@@ -39,8 +39,8 @@ function Navbar() {
           ) : (
             <UserButton>
               <UserButton.MenuItems>
-                <UserButton.Action label='My Bookings' labelIcon={  
-                  <TicketPlus width={15} onClick={() => navigate("/my-bookings") } />} 
+                <UserButton.Action label="My Bookings" labelIcon={<TicketPlus width={15} />} 
+                  onClick={() => navigate("/my-bookings")} 
                 />
               </UserButton.MenuItems>
             </UserButton>
@@ -53,6 +53,5 @@ function Navbar() {
     </div>
   )
 }
-// akshitagungun95@gmail.com , password -> password890gupta
 
 export default Navbar
