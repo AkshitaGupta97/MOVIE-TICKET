@@ -9,10 +9,11 @@ import dotenv from "dotenv"
 
 const app = express();
 const port = 3000;
-// add database
-await connectDB();
 
 dotenv.config();
+
+// add database
+await connectDB();
 
 // middleware
 app.use(express.json());
