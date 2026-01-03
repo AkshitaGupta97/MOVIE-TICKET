@@ -37,6 +37,22 @@ export const getAllShows = async (req, res) => {
         console.log(error);
         res.json({success: false, message: "Error in getting all shows"});
     }
-} 
+}
+
+// Api to get all bookings
+export const getAllBookings = async (req, res) => {
+    try {
+        const bookings = await Booking.find({}).populate('user').populate({
+            path: 'show',  // first we populate show inside booking, path:show means we are populating show field inside booking
+            populate: {path: 'movie'}   //  means we are populating movie inside show
+            // here we are using populate inside populate to get movie details inside show, as show references movie. an example here how populate work :
+            //  if we have a booking document that references a show document, and that show document references a movie document, using populate in this way allows us to retrieve the full details of both the show and the associated movie in a single query.
+        }).sort({createdAt: -1}); // sort bookings by createdAt in descending order
+        res.json({success: true, bookings});
+    } catch (error) {
+        console.log(error);
+        res.json({success: false, message: "Error in getting all bookings"});
+    }
+};
 
 
