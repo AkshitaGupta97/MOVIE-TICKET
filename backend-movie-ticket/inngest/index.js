@@ -43,10 +43,10 @@ const syncUserUpdation = inngest.createFunction(
         await connectDB();
         const {id, first_name, last_name, email_addresses, image_url} = event.data.user
         const userData = {
-            _id, id,
-            email: email_addresses?.[0]?.email_address,
-            name: (first_name || "") +""+(last_name || ""),
-            image: image_url
+            _id: id,
+            email: email_addresses?.[0]?.email_address || null,
+            name: `${first_name || ""} ${last_name || ""}`.trim(),
+            image: image_url || null
         }
         await User.findByIdAndUpdate(id, userData)
     }
