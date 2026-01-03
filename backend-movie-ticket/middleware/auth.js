@@ -4,7 +4,7 @@ import {clerkClient} from "@clerk/express";
 
 export const protectAdmin = async(req, res, next) => {
     try {
-        const {userId} = req.auth; // provides the currently logged-in user's ID.
+        const {userId} = req.auth(); // provides the currently logged-in user's ID.
         if(!userId){
             return res.json({success: false, message: "Unauthorized! Please log in."});
         }
