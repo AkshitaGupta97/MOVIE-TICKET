@@ -1,5 +1,5 @@
-import Booking from "../modals/Booking";
-import Show from "../modals/Show"
+import Booking from "../modals/Booking.js";
+import Show from "../modals/Show.js";
 
 // function to check seates availibilty of selected seat for a movie
 const checkSeatAvailability = async (showId, selectedSeats) => {
@@ -61,7 +61,7 @@ export const createBooking = async (req, res) => {
 // detect changes made to them. By calling markModified on a field, you ensure that Mongoose recognizes the modification and includes it in the next save operation.
 
 // Get Occupied Seats
-const getOccupiedSeats = async (req, res) => {
+export const getOccupiedSeats = async (req, res) => {
     try {
         const {showId} = req.params; // showId from request parameters, e.g: /api/bookings/occupied-seats/:showId
         const showData = await Show.findById(showId);

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const showSchema = new mongoose.Schema(
     {
-        movie: {type:String, required:true, ref: "Movie"},
+        movie: {type:String, required:true, ref: "Movie"}, //  reference to Movie modal
         showDateTime: {type: Date, required: true},
         showPrice: {type: String, required: true},
         occupiedSeats: {type: Object, default:{}},

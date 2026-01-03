@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const bookingSchema = new mongoose.Scheam({
+const bookingSchema = new mongoose.Schema({
     user: {type: String, required: true, ref: "User"}, // references User model
     show: {type: String, required: true, ref: "Show"}, // references Show model
     amount: {type: Number, required: true},

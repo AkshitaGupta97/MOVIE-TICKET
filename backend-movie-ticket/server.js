@@ -7,6 +7,7 @@ import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js"
 import dotenv from "dotenv"
 import showRouter from "./routes/showRoutes.js";
+import bookingRouter from "./routes/bookingRoutes.js";
 
 const app = express();
 const port = 3000;
@@ -31,6 +32,8 @@ const startServer = async () => {
 
     // show routes
     app.use('/api/show', showRouter);
+    // booking Router
+    app.use('/api/booking', bookingRouter);
 
     app.listen(port, () => console.log(`server is at http://localhost:${port}`));
 }
