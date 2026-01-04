@@ -109,12 +109,10 @@ export const addShow = async (req, res) => {
 // Api to get all shows from database
 export const getShows = async (req, res) => {
     try {
-        const shows = await Show.find({showDateTime: {$gte: new Date()}}).populate('movie').sort({showDateTime: 1});   // - Finds shows with showDateTime greater than or equal to now (upcoming shows).
-        //populate('movie').sort({showDateTime: 1});   // -- Replaces the movie field (which is likely a reference ID) with the actual movie document from the Movie collection.
-        //- Only return shows where showDateTime is greater than or equal to the current date/time. $gte = "greater than or equal". Purpose: Get all upcoming shows.
-        // filter unique shows
-        const uniqueShows = new Set(shows.map(show => show.movie)); //-  Creates an array of just the movie objects from each show.
-        res.json({success: true, shows: Array.from(uniqueShows)});
+        const shows = await Show.find({showDateTime: {$gte: new Date()}}).populate('movie').sort({showDateTime: 1});
+        // Return the full show documents (with populated `movie`) so frontend can read `show.movie.title`,
+        // `show.showDateTime`, `show.showPrice`, and `show.occupiedSeats`.
+        res.json({success: true, shows});
     } catch (error) {
         res.json({success: false, message: error.message});
     }
