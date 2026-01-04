@@ -1,22 +1,38 @@
 import { useEffect, useState } from "react";
-import { dummyShowData } from "../assets/dummyShowCard";
+//import { dummyShowData } from "../assets/dummyShowCard";
 import { Loading } from "../components/Loading";
 import Title from "../components/ADMIN/Title";
 import { CheckIcon, DeleteIcon, StarIcon } from "lucide-react";
 import { KConverter } from "../lib/KConverter";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 function AddShow() {
 
   const currency = import.meta.env.VITE_CURRENCY;
+
+  const {axios, getToken, user, image_base_url} = useAppContext();
 
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const [selectedMovies, setSelectedMovies] = useState(null);
   const [dateTimeSelection, setDateTimeSelection]= useState({});
   const [dateTimeInput, setDateTimeInput] = useState("");
   const [showPrice, setShowPrice] = useState("");
+  const [addingShow, setAddingShow] = useState(false);
 
   const fetchNowPlayingMovies = async () => {
-    setNowPlayingMovies(dummyShowData);
+   // setNowPlayingMovies(dummyShowData);
+   try {
+    const {data} = await axios.get('/api/show/now-playing', {
+      headers: {Authorization: `Bearer ${await getToken()}`}
+    });
+    if(data.success) {
+      setNowPlayingMovies(data.movies)
+    }
+   } catch (error) {
+    console.error("Error in fetching now playing movies -> ", error);
+   }
+
   };
 
   const handleDateTimeAdd = () => {
@@ -50,9 +66,43 @@ function AddShow() {
     })
   }
 
+  const handleSubmit = async() => {
+    try {
+      setAddingShow(true);
+      if(!selectedMovies || Object.keys(dateTimeSelection).length === 0 || !showPrice){
+        return toast('Missing required fields', {icon: '⚠️'});
+      }
+      const showsInput = Object.entries(dateTimeSelection).map(([date, time]) => ({date, time}));
+      const payload = { // create request send to backend
+        movieId: selectedMovies,
+        showsInput,
+        showPrice: Number(showPrice),
+      };
+      const {data} = await axios.post('/api/show/add', payload, {
+        headers: {Authorization: `Bearer ${await getToken()}`}
+      });
+      if(data.success){
+        toast.success(data.message);
+        setSelectedMovies(null);
+        setDateTimeSelection({});
+        setShowPrice("");
+      }
+      else {
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      console.error("Error in adding show -> ", error);
+      toast.error("Error in adding show");
+    }
+    setAddingShow(false);
+  }
+
   useEffect(() => {
-    fetchNowPlayingMovies();
-  }, []);
+    if(user) {
+      fetchNowPlayingMovies();
+    }
+  }, [user]);
 
   return nowPlayingMovies.length > 0 ? (
     <>
@@ -63,9 +113,9 @@ function AddShow() {
           {
             nowPlayingMovies.map((movie) => (
               <div key={movie._id} onClick={() => setSelectedMovies(movie._id)}
-                className={` relative max-w-40 cursor-pointer group-hover:not-hover:opacity-70 hover:-translate-y-1 transitation duration-300 `}>
+                className={` relative max-w-40 cursor-pointer group-hover:not-hover:opacity-86 hover:-translate-y-1 transitation duration-300 `}>
                 <div className="relative rounded-lg overflow-hidden">
-                  <img src={movie.poster_path} alt="poster" className="w-full object-cover brightness-90" />
+                  <img src={image_base_url + movie.poster_path} alt="poster" className="w-full object-cover brightness-98" />
                   <div className="text-sm flex items-center justify-between p-2 bg-gray-900 w-full absolute bottom-0 left-0 ">
                     <p className="flex items-center gap-1 text-gray-500">
                       <StarIcon className="w-6 h-6 text-amber-500 fill-amber-300" />
@@ -126,7 +176,7 @@ function AddShow() {
                       <div className="flex flex-wrap gap-2 mt-1 text-lg">
                         {
                           times.map((time) => (
-                            <div className="border border-pink-600 px-2 py-1 flex items-center rounded">
+                            <div key={`${date}-${time}`} className="border border-pink-600 px-2 py-1 flex items-center rounded">
                               <span>{time}</span>
                               <DeleteIcon onClick={() => handleRemoveTime(date, time)} width={24} className="ml-2 text-red-500 hover:text-red-700 cursor-pointer" />
                             </div>
@@ -140,7 +190,8 @@ function AddShow() {
             </div>
           )
         }
-        <button className="bg-pink-700 text-white px-8 py-2 mt-6 rounded hover:bg-pink-800 transition-all cursor-pointer">
+        <button onClick={handleSubmit} disabled={addingShow}
+          className="bg-pink-700 text-white px-8 py-2 mt-6 rounded hover:bg-pink-800 transition-all cursor-pointer">
           Add Show
         </button>
 
@@ -152,6 +203,21 @@ function AddShow() {
 export default AddShow
 
 /*
+Object.entries() is a built‑in JavaScript method that takes an object and returns an array of key–value pairs.
+Object.entries(obj)
+- obj → the object you want to convert into an array of [key, value] pairs.
+const dateTimeSelection = {
+  "2026-01-05": "18:00",
+  "2026-01-06": "20:00"
+};
+const showsInput = Object.entries(dateTimeSelection).map(([date, time]) => ({ date, time }));
+console.log(showsInput);
+// output
+[
+  { date: "2026-01-05", time: "18:00" },
+  { date: "2026-01-06", time: "20:00" }
+]
+***
 handleDateTimeAdd
 dateTimeSelection = {
   "2025-12-28": ["14:00"]

@@ -15,6 +15,8 @@ export const AppProvider = ({children}) => {
     const [shows, setShows] = useState([]);
     const [favouriteMovie, setFavouriteMovie] = useState([]);
 
+    const image_base_url = import.meta.env.VITE_TMDB_IMAGE_BASE_URL;
+
     const {user} = useUser();
     const {getToken} = useAuth();  //  Asynchronously returns a JWT to authorize API calls.
     const location = useLocation();  // The current route path; used to check if the user is on an admin page.
@@ -82,7 +84,7 @@ export const AppProvider = ({children}) => {
 
     const value = {
         axios, fetchIsAdmin, user, getToken, navigate, isAdmin, shows, 
-        favouriteMovie, fetchFavouriteMovies, 
+        favouriteMovie, fetchFavouriteMovies, image_base_url 
     };
 
     return (
