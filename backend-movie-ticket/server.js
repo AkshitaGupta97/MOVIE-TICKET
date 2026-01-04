@@ -9,6 +9,7 @@ import dotenv from "dotenv"
 import showRouter from "./routes/showRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import adminRouter from "./routes/adminRoute.js";
+import userRouter from "./routes/userRoutes.js";
 
 const app = express();
 const port = 3000;
@@ -37,6 +38,8 @@ const startServer = async () => {
     app.use('/api/booking', bookingRouter);
     // admin router
     app.use('/api/admin', adminRouter);
+    // user router
+    app.use('/api/user', userRouter);
 
     app.listen(port, () => console.log(`server is at http://localhost:${port}`));
 }

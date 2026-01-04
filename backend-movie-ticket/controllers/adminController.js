@@ -1,6 +1,6 @@
-import Booking from "../modals/Booking";
-import Show from "../modals/Show";
-import User from "../modals/User";
+import Booking from "../modals/Booking.js";
+import Show from "../modals/Show.js";
+import User from "../modals/User.js";
 
 // Api to check whether the selected seats are available for booking or not, as whether user is Admin
 export const isAdmin = async (req, res) => {
@@ -54,5 +54,3 @@ export const getAllBookings = async (req, res) => {
         res.json({success: false, message: "Error in getting all bookings"});
     }
 };
-
-

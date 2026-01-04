@@ -1,6 +1,6 @@
 import express from "express"
 import { getAllBookings, getAllShows, getDashboardData, isAdmin } from "../controllers/adminController.js";
-import { protectAdmin } from "../middlewares/authMiddleware.js";
+import { protectAdmin } from "../middleware/auth.js";
 
 const adminRouter = express.Router();
 
