@@ -5,7 +5,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 //- Clerk: useUser gives the current user; useAuth gives methods like getToken() for authenticated requests.
 
-axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL; // Set the base URL for all axios requests using an environment variable.
+// Set the base URL for all axios requests using an environment variable.
+// Fallback to localhost:3000 in development if the env var is not configured.
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
 export const AppContext = createContext(); //  creates a new Context object.
 

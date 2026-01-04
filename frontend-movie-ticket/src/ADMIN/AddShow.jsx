@@ -72,6 +72,11 @@ function AddShow() {
       if(!selectedMovies || Object.keys(dateTimeSelection).length === 0 || !showPrice){
         return toast('Missing required fields', {icon: '⚠️'});
       }
+      // selectedMovies must be a real movie id (not a fallback like movie-0)
+      if(String(selectedMovies).startsWith('movie-')){
+        setAddingShow(false);
+        return toast.error('Please select a valid movie');
+      }
       const showsInput = Object.entries(dateTimeSelection).map(([date, time]) => ({date, time}));
       const payload = { // create request send to backend
         movieId: selectedMovies,
@@ -111,9 +116,12 @@ function AddShow() {
       <div className="overflow-x-auto pb-4">
         <div className="group flex flex-wrap gap-4 mt-4 w-max">
           {
-            nowPlayingMovies.map((movie) => (
-              <div key={movie._id} onClick={() => setSelectedMovies(movie._id)}
-                className={` relative max-w-40 cursor-pointer group-hover:not-hover:opacity-86 hover:-translate-y-1 transitation duration-300 `}>
+            nowPlayingMovies.map((movie, index) => {
+              const movieId = movie && (movie.id ?? movie._id) ? String(movie.id ?? movie._id) : null;
+              const movieKey = movieId || `movie-${index}`;
+              return (
+                <div key={movieKey} onClick={() => setSelectedMovies(movieId ? movieId : movieKey)}
+                  className={` relative max-w-40 cursor-pointer group-hover:not-hover:opacity-86 hover:-translate-y-1 transitation duration-300 `}>
                 <div className="relative rounded-lg overflow-hidden">
                   <img src={image_base_url + movie.poster_path} alt="poster" className="w-full object-cover brightness-98" />
                   <div className="text-sm flex items-center justify-between p-2 bg-gray-900 w-full absolute bottom-0 left-0 ">
@@ -126,7 +134,7 @@ function AddShow() {
                 </div>
 
                 {
-                  selectedMovies === movie._id && (
+                  selectedMovies === movieKey && (
                     <div className="absolute top-2 right-2 flex items-center justify-center bg-pink-600 h-6 w-6 rounded">
                       <CheckIcon className="w-4 h-4 text-center text-white" strokeWidth={2.5} />
                     </div>
@@ -135,7 +143,8 @@ function AddShow() {
                 <p className="font-medium text-pink-200 truncate">{movie.title}</p>
                 <p className="text-gray-400 text-lg">{movie.release_date}</p>
               </div>
-            ))
+              )
+            })
           }
         </div>
       </div>
@@ -170,13 +179,13 @@ function AddShow() {
               <h2 className="mb-2 text-amber-300 text-lg">Selected Date-Time</h2>
               <ul className="space-y-3">
                 {
-                  Object.entries(dateTimeSelection).map(([date, times]) => (
-                    <li key={date} className="border border-gray-400 rounded-md p-4 inline-flex items-center gap-1.5 flex-col ml-2">
+                  Object.entries(dateTimeSelection).map(([date, times], index) => (
+                    <li key={`${date}-${index}`} className="border border-gray-400 rounded-md p-4 inline-flex items-center gap-1.5 flex-col ml-2">
                       <div className="font-medium text-orange-300">{date}</div>
                       <div className="flex flex-wrap gap-2 mt-1 text-lg">
                         {
-                          times.map((time) => (
-                            <div key={`${date}-${time}`} className="border border-pink-600 px-2 py-1 flex items-center rounded">
+                          times.map((time, timeIndex) => (
+                            <div key={`${date}-${time}-${timeIndex}`} className="border border-pink-600 px-2 py-1 flex items-center rounded">
                               <span>{time}</span>
                               <DeleteIcon onClick={() => handleRemoveTime(date, time)} width={24} className="ml-2 text-red-500 hover:text-red-700 cursor-pointer" />
                             </div>
