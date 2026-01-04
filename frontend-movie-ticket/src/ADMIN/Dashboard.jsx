@@ -1,14 +1,17 @@
 import { ChartLineIcon, CircleDollarSignIcon, PlayCircleIcon, StarIcon, UsersIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import adminDummyDashboardData from "../assets/adminDummyDashboardData";
+//import adminDummyDashboardData from "../assets/adminDummyDashboardData";
 import { Loading } from "../components/Loading";
 import Title from "../components/ADMIN/Title";
 import BlurCircle from "../components/BlurCircle";
+import { useAppContext } from "../context/AppContext";
 //import dateFormat from "../lib/dateFormat";
 
 function Dashboard() {
 
   const currency = import.meta.env.VITE_CURRENCY;
+
+  const {axios, getToken, user, image_base_url} = useAppContext();
 
   const [dashboardData, setDashboardData] = useState({
     totalBookings: 0,
@@ -20,23 +23,34 @@ function Dashboard() {
 
   const dashboardCards = [
     { title: "Total Bookings", value: dashboardData.totalBookings || '0', icon: ChartLineIcon },
-    { title: "Total Revenue", value: currency + dashboardData.totalRevenue || '0', icon: CircleDollarSignIcon },
+    { title: "Total Revenue", value: currency + (dashboardData.totalRevenue || 0), icon: CircleDollarSignIcon },
     { title: "Active Shows", value: dashboardData.activeShows.length || '0', icon: PlayCircleIcon },
     { title: "Total Users", value: dashboardData.totalUser || '0', icon: UsersIcon },
   ]
 
   const fetchDashBoardData = async () => {
-    setDashboardData(adminDummyDashboardData)
-    setLoading(false)
+   // setDashboardData(adminDummyDashboardData)
+   try {
+    const {data} = await axios.get('/api/admin/dashboard', {
+      headers: {Authorization: `Bearer ${await getToken()}`}
+    });
+    if(data.success) {
+      setDashboardData(data.dashboardData);
+      setLoading(false);
+    }
+   } catch (error) {
+    toast.error('Error in fetching dashboard data', error);
+   }
   };
 
   useEffect(() => {
-    fetchDashBoardData()
-  }, []);
+    if(user) {
+      fetchDashBoardData();
+    }
+  }, [user]);
 
   return !loading? (
     <>
-    abg
       <Title text1="Admin" text2="Dashboard" />
 
       <div className="relative flex flex-wrap gap-4 mt-6">
@@ -64,7 +78,7 @@ function Dashboard() {
         {
           dashboardData.activeShows.map((show) => (
             <div key={show._id} className="w-55 rounded-lg overflow-hidden h-full pb-3 bg-gray-600 border border-amber-300 hover:-translate-y-1 transition duration-300">
-              <img src={show.movie.poster_path} alt="poster" className="h-60 w-full object-cover" />
+              <img src={image_base_url + show.movie.poster_path} alt="poster" className="h-60 w-full object-center object-fill" />
               <p className="font-medium p-2 text-amber-400 truncate">{show.movie.title}</p>
               <div>
                 <p className="text-lg font-medium">{currency} {show.showPrice}</p>
@@ -73,7 +87,7 @@ function Dashboard() {
                   {show.movie.vote_average.toFixed(1)}
                 </p>
               </div>
-              <p className="px-2 pt-2 text-sm text-gray-300">{show.showDateTime}</p> {/* {dateFormat(show.showDateTime)} */}
+              <p className="px-2 pt-2 text-sm text-yellow-200">{new Date(show.showDateTime).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })}</p>
             </div>
           ))}
       </div>
