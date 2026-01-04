@@ -23,7 +23,7 @@ export const AppProvider = ({children}) => {
     // fetch admin function
     const fetchIsAdmin = async(req, res) => {
         try {
-            const {data} = await axios.get('/api/admin/isadmin', {
+            const {data} = await axios.get('/api/admin/is-admin', {
                 headers: {Authorization: `Bearer ${await getToken()}`}
             });
             setIsAdmin(data.isAdmin);
@@ -78,7 +78,7 @@ export const AppProvider = ({children}) => {
             fetchIsAdmin();
             fetchFavouriteMovies();
         }
-    }, [])
+    }, [user])
 
     const value = {
         axios, fetchIsAdmin, user, getToken, navigate, isAdmin, shows, 

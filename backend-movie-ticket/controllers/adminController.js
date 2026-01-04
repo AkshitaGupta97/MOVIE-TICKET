@@ -1,10 +1,22 @@
 import Booking from "../modals/Booking.js";
 import Show from "../modals/Show.js";
 import User from "../modals/User.js";
+import {clerkClient} from "@clerk/express";
 
 // Api to check whether the selected seats are available for booking or not, as whether user is Admin
 export const isAdmin = async (req, res) => {
-    res.json({success: true, message: "User is Admin"});
+    try {
+        const {userId} = req.auth();
+        if(!userId){
+            return res.json({success: false, isAdmin: false, message: "Unauthorized! Please log in."});
+        }
+        const user = await clerkClient.users.getUser(userId);
+        const userIsAdmin = user.privateMetadata?.role === 'admin';
+        res.json({success: true, isAdmin: userIsAdmin, message: userIsAdmin ? "User is Admin" : "User is not Admin"});
+    } catch (error) {
+        console.log("Error in isAdmin endpoint -> ", error);
+        res.json({success: false, isAdmin: false, message: "Internal Server Error"});
+    }
 }
 
 // Api to get Dashboard data
@@ -54,3 +66,5 @@ export const getAllBookings = async (req, res) => {
         res.json({success: false, message: "Error in getting all bookings"});
     }
 };
+
+
