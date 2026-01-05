@@ -70,25 +70,25 @@ function MovieDetails() {
           <h1 className="text-4xl text-amber-300 font-semibold max-w-90 text-balance">{show.movie.title}</h1>
           <div className="flex items-center gap-2 text-gray-300">
             <StarIcon className="w-5 h-5 text-amber-400 fill-amber-300" />
-            {show.movie.vote_average.toFixed(1)} <span className="text-orange-300">User Rating</span>
+            {show.movie.vote_average.toFixed(1)} <span className="text-orange-200">User Rating</span>
           </div>
           <p>{show.movie.overview}</p>
-          <p>
+          <p className="text-indigo-300">
             {timeFormat(show.movie.runtime)} {show.movie.genres.map(genre => genre.name).join(", ")}
             {show.movie.release_date.split("-")[0]}
           </p>
 
           <div className="flex items-center flex-wrap gap-4 mt-4">
-            <button className="flex items-center gap-2 px-7 py-3 text-sm bg-gray-800 hover:bg-gray-900 
+            <button className="flex items-center gap-2 px-7 py-3 text-sm bg-gray-600 hover:bg-gray-700 
               transition rounded-md font-medium cursor-pointer active:scale-95">
               <PlayCircleIcon className="w-5 h-5" />
               Watch Trailer
             </button>
-            <a href="#dateSelect" className="px-10 py-3 text-sm bg-pink-600 hover:bg-pink-700 transition rounded-md 
+            <a href="#dateSelect" className="px-10 py-3 text-sm bg-pink-600 hover:bg-pink-800 transition rounded-md 
             font-medium cursor-pointer active:scale-95">Buy Tickets</a>
-            <button onClick={handleFavourite} className="bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95">
+            <button onClick={handleFavourite} className="bg-gray-500 p-2.5 rounded-full transition cursor-pointer active:scale-95">
               <Heart  className={`w-5 h-5 ${favouriteMovie.find(movie => movie._id === id) ?
-                'fill-pink-600' : ""
+                'fill-pink-600 text-pink-600' : ""
               }`} />
             </button>
           </div>
@@ -102,7 +102,7 @@ function MovieDetails() {
           {
             show.movie.casts.map((cast, index) => (
               <div key={index} className="flex flex-col items-center text-center">
-                <img src={cast.profile_path} alt="casts_image" className="rounded-full h-28 md:h-28 aspect-square  object-cover" />
+                <img src={image_base_url + cast.profile_path} alt="casts_image" className="rounded-full h-28 md:h-28 aspect-square  object-cover" />
                 <p className="font-medium text-lg mt-3">{cast.name}</p>
               </div>
             ))

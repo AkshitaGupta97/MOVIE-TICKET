@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { Loading } from "../components/Loading";
 import BlurCircle from "../components/BlurCircle";
 import dateFormat from "../lib/dateFormat";
+import { useAppContext } from "../context/AppContext";
 
 
 function MyBooking() {
+
+  const { axios, getToken, user, image_base_url} = useAppContext();
 
   const currency = import.meta.env.VITE_CURRENCY; // helps to import viteCurrency from .env
 
@@ -12,13 +15,27 @@ function MyBooking() {
   const [isLoading, setIsLoading] = useState(true);
 
   const getMyBookings = async() => {
-    setBookings(dummyBookingData)
-    setIsLoading(false);
+    /*setBookings(dummyBookingData)
+    setIsLoading(false); 
+    */
+   try {
+    const {data} = await axios.get('/api/user/bookings', {
+      headers: {Authorization: `Bearer ${await getToken()}`}
+    });
+    if(data.success){
+      setBookings(data.bookings);
+    }
+   } catch (error) {
+    console.log(error);
+   }
+   setIsLoading(false)
   }
 
   useEffect(()=> {
-    getMyBookings()
-  }, [])
+    if(user){
+      getMyBookings()
+    }
+  }, [user])
 
   return isLoading ? (
     <div className="relative px-6 md:px-16 lg:px-40 pt-30 md:pt-40 min-h-[80vh]">
