@@ -8,11 +8,14 @@ import dummyDateTimeData from "../assets/dummyDateTimeData";
 import DateSelect from "../components/DateSelect";
 import MovieCard from "../components/MovieCard";
 import { Loading } from "../components/Loading";
+import { useAppContext } from "../context/AppContext";
 
 function MovieDetails() {
   const navigate = useNavigate();
   const { id } = useParams(); // to get id from url
   const [show, setShow] = useState(null);
+
+  const {shows, axios, getToken, user, fetchfavouriteMovies, favouriteMovie, image_base_url} = useAppContext();
 
   // fetch show from id and store it in variable
   const getShow = async () => {

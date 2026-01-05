@@ -2,20 +2,22 @@
 import { StarIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
 import timeFormat from '../lib/timeFormat';
+import { useAppContext } from '../context/AppContext';
 
 function MovieCard({ movie }) {
   const navigate = useNavigate();
+  const {image_base_url} = useAppContext();
   return (
     <div className='flex flex-col justify-between p-3 border-amber-400  border-1 bg-gray-800 rounded-2xl hover:translate-y-1 
     transition duration-300 w-66'>
 
       <img onClick={() => { navigate(`/movies/${movie._id}`); scrollTo(0, 0) }}
-        src={movie.backdrop_path} alt="movieCard" className='rounded-lg h-52 w-full
-        object-bottom-right object-fill cursor-pointer' />
+        src={image_base_url + movie.backdrop_path} alt="movieCard" className='rounded-lg h-52 w-full
+        object-center object-fill cursor-pointer' />
 
       <p className='font-semibold mt-2 truncate'>{movie.title}</p>
       <p className='text-sm text-yellow-400 mt-2'>
-        {new Date(movie.release_date).getFullYear()} {movie.genres.slice(0, 2)
+        {new Date(movie.release_date).getFullYear()} {(movie.genres || []).slice(0, 2)
           .map(genre => genre.name).join(" | ")} <span className='text-blue-500 font-semibold'>{timeFormat(movie.runtime)}</span>
       </p>
 
@@ -27,7 +29,7 @@ function MovieCard({ movie }) {
 
         <p className='flex items-center gap-1 text-sm text-gray-400 mt-1 pr-1'>
           <StarIcon className='w-4 h-4 text-pink-600 fill-yellow-400' />
-          {movie.vote_average.toFixed(1)}
+          {(movie.vote_average || 0).toFixed(1)}
         </p>
       </div>
 

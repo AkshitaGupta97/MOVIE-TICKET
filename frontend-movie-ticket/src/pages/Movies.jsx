@@ -1,9 +1,12 @@
-import { dummyShowData } from "../assets/dummyShowCard.js"
+//import { dummyShowData } from "../assets/dummyShowCard.js"
 import BlurCircle from "../components/BlurCircle.jsx"
 import MovieCard from "../components/MovieCard.jsx"
+import { useAppContext } from "../context/AppContext.jsx"
 
 const Movies = () => {
-  return dummyShowData.length > 0 ? (
+  const {shows} = useAppContext();
+
+  return shows.length > 0 ? (
     <div className="relative my-32 mb-30 px-6 md:px-16 lg:px-40 xl:px-44 overflow-hidden min-h-[80vh]">
 
       <BlurCircle top="60px" left="40px" />
@@ -12,8 +15,8 @@ const Movies = () => {
       <h1 className="text-2xl text-amber-500 font-medium my-4">Check them...</h1>
       <div className="flex flex-wrap max-sm:justify-center gap-8">
         {
-          dummyShowData.map((movie) => {
-            return <MovieCard movie={movie} key={movie._id} />
+          shows.map((mov) => {
+            return <MovieCard movie={mov.movie} key={mov._id} />
           })
         }
       </div>

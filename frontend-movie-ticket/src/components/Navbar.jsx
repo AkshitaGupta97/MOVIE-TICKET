@@ -2,6 +2,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import {MenuIcon, SearchIcon, TicketPlus, XIcon} from 'lucide-react'
 import { useState } from 'react'
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react';
+import { useAppContext } from '../context/AppContext';
 
 function Navbar() {
 
@@ -9,6 +10,8 @@ function Navbar() {
   const {user} = useUser();
   const {openSignIn} = useClerk();
   const navigate = useNavigate();
+
+  const {favouriteMovie} = useAppContext();
 
   return (
     <div className="fixed top-0 left-0 z-50 w-full flex items-center justify-between px-6 md:px-16 lg:px-36 py-5">
@@ -27,7 +30,7 @@ function Navbar() {
         <Link onClick={() => {scrollTo(0,0); setIsOpen(false)}} to='/movies'>Movies</Link>
         <Link onClick={() => {scrollTo(0,0); setIsOpen(false)}} to='/'>Threaters</Link>
         <Link onClick={() => {scrollTo(0,0); setIsOpen(false)}} to='/'>Releases</Link>
-        <Link onClick={() => {scrollTo(0,0); setIsOpen(false)}} to='/favourite'>Favourite</Link>
+        { favouriteMovie.length > 0 &&  <Link onClick={() => {scrollTo(0,0); setIsOpen(false)}} to='/favourite'>Favourite</Link>}
       </div>
 
       <div className='flex item-center gap-8'>
