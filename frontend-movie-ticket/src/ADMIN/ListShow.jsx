@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { dummyShowData } from "../assets/dummyShowCard";
+//import { dummyShowData } from "../assets/dummyShowCard";
 import { Loading } from "../components/Loading";
 import Title from "../components/ADMIN/Title";
 import { useAppContext } from "../context/AppContext";

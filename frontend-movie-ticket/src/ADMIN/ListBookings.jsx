@@ -2,21 +2,34 @@ import { useEffect, useState } from "react";
 import { Loading } from "../components/Loading";
 import adminDummyDashboardData from "../assets/adminDummyDashboardData";
 import Title from "../components/ADMIN/Title";
+import { useAppContext } from "../context/AppContext";
 
 function ListBookings() {
+
+  const {axios, getToken, user} = useAppContext();
 
   const currency = import.meta.env.VITE_CURRENCY;
   const [bookings, setBookings] = useState([]);
   const [isloading, setIsLoading] = useState(true);
 
   const getAllBookings = async() => {
-    setBookings(adminDummyDashboardData);
+    //setBookings(adminDummyDashboardData);
+    try {
+      const {data} = await axios.get('/api/admin/all-bookings', {
+        headers: {Authorization: `Bearer ${await getToken()}`}
+      });
+      setBookings(data.bookings || []);
+    } catch (error) {
+      console.error(error);
+    }
     setIsLoading(false);
   }
 
   useEffect(() => {
-    getAllBookings()
-  }, [])
+    if(user) {
+      getAllBookings()
+    }
+  }, [user])
 
   return !isloading ? (
     <div>
@@ -35,13 +48,13 @@ function ListBookings() {
 
           <tbody className="text-lg font-medium">
             {
-              bookings.activeShows.map((item, index) => (
-                <tr key={index} className="border-b border-amber-300 bg-gray-600 even:bg-cyan-950">
-                  <td className="p-2 min-w-45 pl-5">{item.username}</td>
-                  <td className="p-2">{item.movie.title}</td>
-                  <td className="p-2">{item.showDateTime}</td>
-                  <td className="p-2">{item.bookedSeats.map(seat => `${seat.seatNo}`).join(", ")}</td>
-                  <td className="p-2">{currency} {item.showPrice}</td>
+              (bookings || []).map((item, index) => (
+                <tr key={item._id || index} className="border-b border-amber-300 bg-gray-600 even:bg-cyan-950">
+                  <td className="p-2 min-w-45 pl-5">{item.user?.name || '—'}</td>
+                  <td className="p-2">{item.show?.movie?.title || '—'}</td>
+                  <td className="p-2">{item.show?.showDateTime ? new Date(item.show.showDateTime).toLocaleString('en-IN', {dateStyle:'short', timeStyle:'short'}) : '—'}</td>
+                  <td className="p-2">{Array.isArray(item.bookedSeats) ? item.bookedSeats.map(seat => seat.seatNo || seat).join(', ') : '—'}</td>
+                  <td className="p-2">{currency} {item.amount ?? item.show?.showPrice ?? '0'}</td>
                 </tr>
               ))
             }
