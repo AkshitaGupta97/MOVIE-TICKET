@@ -60,27 +60,27 @@ function MyBooking() {
 
       {
         bookings.map((item, index) => (
-          <div key={index} className="flex flex-col md:flex-row justify-between bg-pink-600 border-2 border-amber-300
+          <div key={index} className="flex flex-col mb-6 md:flex-row justify-between bg-gray-600 border-1 border-amber-300
             rounded-lg mt-4 p-2 max-w-3xl">
               <div className="flex flex-col md:flex-row">
-                <img src={ image_base_url + item.show.movie.poster_path} alt="" className="md:max-w-xs aspect-video h-auto object-fill object-bottom rounded" />
+                <img src={ image_base_url + item.show.movie.poster_path} alt="" className="md:max-w-xs aspect-video h-auto object-cover rounded" />
                 <div className="flex flex-col p-4">
-                  <p className="text-lg font-semibold">{item.show.movie.title}</p>
-                  <p className="text-gray-400 text-sm">{item.show.movie.runtime}</p>  {/* timeFormat(item.show.movie.runtime) */}
-                  <p className="text-gray-400 text-sm mt-auto">{dateFormat(item.show.showDateTime)}</p>
+                  <p className="text-lg text-amber-300 font-semibold">{item.show.movie.title}</p>
+                  <p className="text-gray-200 text-sm">{item.show.movie.runtime}</p>  {/* timeFormat(item.show.movie.runtime) */}
+                  <p className="text-gray-200 text-sm mt-auto">{dateFormat(item.show.showDateTime)}</p>
                 </div>
               </div>
 
               <div className="flex flex-col md:items-end md:text-right justify-between p-4">
                 <div className="flex items-center gap-4">
-                  <p className="text-2xl font-semibold mb-3">{currency}{item.amount}</p>
+                  <p className="text-xl font-semibold mb-3">{currency}{item.amount}</p>
                   {
-                    !item.isPaid && <button className="bg-pink-600 px-4 py-1.5 mb-3 text-lg rounded-full font-medium cursor-pointer">Pay Now</button>
+                    !item.isPaid && <button className="bg-pink-700 hover:bg-pink-800 px-4 py-1.5 mb-3 text-md rounded-full font-medium cursor-pointer">Pay Now</button>
                   }
                 </div>
                 <div className="text-sm">
-                  <p><span className="text-gray-400">Total Tickets:</span>{item.bookedSeat.length}</p>
-                  <p><span className="text-gray-400">Seat Number:</span>{item.bookedSeat.join(", ")}</p>
+                  <p className="text-orange-300 font-bold ml-0.5"><span className="text-gray-200">Total Tickets:</span>{item.bookedSeats.length}</p>
+                  <p className="text-orange-300 font-bold ml-0.5"><span className="text-gray-200">Seat Number:</span>{item.bookedSeats.join(", ")}</p>
                 </div>
               </div>
 

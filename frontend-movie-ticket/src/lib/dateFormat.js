@@ -1,6 +1,6 @@
 
 const dateFormat = (date) => {
-  return new Date(date).toLocaleString('es-US', {
+  return new Date(date).toLocaleString('en-US', {
     weekday: 'short', // mon, tue..
     month: 'long',   // january, february...
     day: 'numeric',  // 1, 2,3

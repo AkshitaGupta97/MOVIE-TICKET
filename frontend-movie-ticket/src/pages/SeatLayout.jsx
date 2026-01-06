@@ -145,8 +145,9 @@ function SeatLayout() {
             return (
               <button key={seatId} onClick={() => handleSeatClick(seatId)}
                 className={`h-10 w-10 rounded border border-pink-600 cursor-pointer 
-                  ${selectedSeat.includes(seatId) && "bg-pink-600 text-white"}
-                  ${occupiedSeats.includes(seatId) && "bg-gray-400 cursor-not-allowed"}
+                  ${occupiedSeats.includes(seatId) ? "bg-gray-600 cursor-not-allowed" :
+                    selectedSeat.includes(seatId) ? "bg-pink-600 text-white" : "cursor-pointer"
+                  }
                 `}>
                 {seatId}
               </button>

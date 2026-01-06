@@ -19,42 +19,52 @@ const checkSeatAvailability = async (showId, selectedSeats) => {
 // create booking function
 export const createBooking = async (req, res) => {
     try {
-        const {userId} = req.auth();
+        const auth = typeof req.auth === 'function' ? req.auth() : null;
+        if (!auth || !auth.userId) {
+            return res.status(401).json({success: false, message: 'Unauthorized. Please login.'});
+        }
+        const userId = auth.userId;
+        
         const {showId, selectedSeats} = req.body;
-        const {origin} = req.headers; // Get the origin from request headers as we are not using cors middleware, eg: http://localhost:3000 or https://mymovieticketapp.com, 
-        // origin will help to identify the frontend from where the request is coming, so that we can handle cors accordingly. here origin is dynamic based on the frontend app. eg: localhost or production domain
+        
+        // Validate inputs
+        if (!showId) return res.status(400).json({success: false, message: "showId is required"});
+        if (!Array.isArray(selectedSeats) || selectedSeats.length === 0) {
+            return res.status(400).json({success: false, message: "selectedSeats must be a non-empty array"});
+        }
 
-        // check if seat is available for selected show
-        const isSeatAvailable = await checkSeatAvailability(showId, selectedSeats);
-        if(!isSeatAvailable){
-            return res.status(400).json({message: "Selected seats are already booked. Please choose different seats."});
-        }
-        // proceed with booking logic here = get show details
-        const showData = await Show.findById(showId).populate('movie'); // populate movie details, populate means to fetch the related movie document based on the reference in show document, we get movie from show schema
+        // Fetch show and validate it exists
+        const showData = await Show.findById(showId).populate('movie');
         if(!showData){
-            return res.status(404).json({message: "Show not found"});
+            return res.status(404).json({success: false, message: "Show not found"});
         }
-        // create new bookings
+
+        // Check if seats are available
+        const occupiedSeatsObj = showData.occupiedSeats || {};
+        const isAnySeatTaken = selectedSeats.some(seat => Boolean(occupiedSeatsObj[seat]));
+        if(isAnySeatTaken){
+            return res.status(400).json({success: false, message: "Selected seats are already booked. Please choose different seats."});
+        }
+
+        // Create new booking
         const booking = await Booking.create({
             user: userId,
             show: showId,
             amount: showData.showPrice * selectedSeats.length,
             bookedSeats: selectedSeats,
         });
-        // reserve seat in showData
-        selectedSeats.map((seat) => { 
-            showData.occupiedSeats[seat] = userId; // mark seat as occupied by userId, occupiedSeats[seat] is like a key value pair, seat is key and userId is value
+
+        // Mark seats as occupied
+        selectedSeats.forEach((seat) => { 
+            showData.occupiedSeats[seat] = userId;
         });
-        showData.markModified('occupiedSeats'); // mark occupiedSeats as modified to let mongoose know that this field is updated, markModified is used when we update nested objects or arrays in mongoose schema. 
-        
-        await showData.save(); // save updated showData with occupied seats
+        showData.markModified('occupiedSeats');
+        await showData.save();
 
-        // stripe Payment  Gateway initilization... skipped for now
-
-        return res.status(201).json({message: "Booking successful", booking});
+        return res.status(201).json({success: true, message: "Booking successful", booking});
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({message: "Internal Server Error"});
+        console.error('Error in createBooking:', error.message);
+        return res.status(500).json({success: false, message: "Internal Server Error"});
     }
 }
 // markModified: is used to inform Mongoose that a specific field in a document has been modified. This is particularly useful when dealing with nested objects or arrays, as Mongoose may not automatically 
