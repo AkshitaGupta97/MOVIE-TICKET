@@ -3,11 +3,13 @@ import { Loading } from "../components/Loading";
 import BlurCircle from "../components/BlurCircle";
 import dateFormat from "../lib/dateFormat";
 import { useAppContext } from "../context/AppContext";
+import { useClerk } from '@clerk/clerk-react';
 
 
 function MyBooking() {
 
   const { axios, getToken, user, image_base_url} = useAppContext();
+  const { openSignIn } = useClerk();
 
   const currency = import.meta.env.VITE_CURRENCY; // helps to import viteCurrency from .env
 
@@ -36,6 +38,17 @@ function MyBooking() {
       getMyBookings()
     }
   }, [user])
+
+  if(!user){
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <div className="text-center">
+          <p className="mb-4 text-lg text-amber-300">Please sign in to view your bookings.</p>
+          <button onClick={openSignIn} className="px-6 py-2 bg-pink-600 rounded-full text-white">Sign in</button>
+        </div>
+      </div>
+    )
+  }
 
   return !isLoading ? (
     <div className="relative px-6 md:px-16 lg:px-40 pt-30 md:pt-40 min-h-[80vh]">
