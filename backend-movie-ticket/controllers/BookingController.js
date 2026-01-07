@@ -1,5 +1,6 @@
 import Booking from "../modals/Booking.js";
 import Show from "../modals/Show.js";
+import stripe from "stripe";
 
 // function to check seates availibilty of selected seat for a movie
 const checkSeatAvailability = async (showId, selectedSeats) => {
@@ -26,6 +27,8 @@ export const createBooking = async (req, res) => {
         const userId = auth.userId;
         
         const {showId, selectedSeats} = req.body;
+
+        const {origin} = req.headers;
         
         // Validate inputs
         if (!showId) return res.status(400).json({success: false, message: "showId is required"});
@@ -61,7 +64,34 @@ export const createBooking = async (req, res) => {
         showData.markModified('occupiedSeats');
         await showData.save();
 
-        return res.status(201).json({success: true, message: "Booking successful", booking});
+        // stripe payment
+        const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY); //- Creates a new Stripe client instance using your secret key stored  
+        // creating line items for stripe
+        const line_items = [{
+            price_data: {
+                currency: "usd",
+                product_data: {
+                    name: showData.movie.title,
+                },
+                unit_amount: Math.floor(booking.amount) * 100
+            },
+            quantity: 1,
+        }]
+
+        const session = await stripeInstance.checkout.sessions.create({
+            success_url: `${origin}/loading/my-bookings`,
+            cancel_url: `${origin}/my-bookings`,
+            line_items: line_items,
+            mode: 'payment',
+            metadata: {
+                bookingId: booking._id.toString(),
+            },
+            expires_at: Math.floor(Date.now() /1000) + 30 * 60, // session expires in 30 minutes
+        })
+        booking.paymentLink = session.url;
+        await booking.save();
+
+        return res.status(201).json({success: true, url: session.url, booking});
     } catch (error) {
         console.error('Error in createBooking:', error.message);
         return res.status(500).json({success: false, message: "Internal Server Error"});
