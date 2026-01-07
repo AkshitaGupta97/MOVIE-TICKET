@@ -1,5 +1,5 @@
 import stripe from 'stripe';
-import Booking from '../models/Booking.js';
+import Booking from '../modals/Booking.js';
 
 export const stripeWebhook = async(req, res) => {   // defines an Express route handler called stripewebhook. this function will be triggered when Stripe sends webhook events to your server.
     const stripeInstance = new stripe (process.env.STRIPE_SECRET_KEY);   // Creates a stripe client using your secret key from environment variables. needed to verify and process events securely
