@@ -124,8 +124,10 @@ function SeatLayout() {
         }
       );
       if(data.success){
-        toast.success(data.message);
-        navigate("/my-bookings");
+       /* toast.success(data.message);
+        navigate("/my-bookings");*/
+        // adding stripe payment method
+        window.location.href = data.url; // redirect to stripe payment page
       }
 
     } catch (error) {

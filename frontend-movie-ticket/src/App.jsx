@@ -16,6 +16,7 @@ import ListShow from "./ADMIN/ListShow"
 import ListBookings from "./ADMIN/ListBookings"
 import { useAppContext } from "./context/AppContext"
 import { SignIn } from "@clerk/clerk-react"
+import { Loading } from "./components/Loading"
 
 /**
  * App Component
@@ -56,6 +57,7 @@ function App() {
         <Route path="/movies/:id" element={<MovieDetails />} />
         <Route path="/movies/:id/:date" element={<SeatLayout />} />
         <Route path="/my-bookings" element={<MyBooking />} />
+        <Route path="/loading/:nextUrl" element={<Loading />} />
         <Route path="/favourite" element={<Favourite />} />
 
         {/* Route for Admin [/admin/*] after(/*) if we add any path we display same layout */}

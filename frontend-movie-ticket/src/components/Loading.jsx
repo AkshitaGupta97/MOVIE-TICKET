@@ -1,5 +1,18 @@
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom"
 
 export const Loading = () => {
+  const {nextUrl} = useParams();  // we get nextUrl from the params, which comes from 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(nextUrl) {
+      setTimeout(() => {
+        navigate(`/${nextUrl}`);
+      }, 5000)
+    }
+  }, [])
+
   return (
     <div className="flex justify-center items-center h-[80vh]">
         <div className="animate-spin rounded-full h-14 w-14 border-2 border-t-primary"></div>

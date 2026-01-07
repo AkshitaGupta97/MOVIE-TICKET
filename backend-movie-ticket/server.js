@@ -10,6 +10,7 @@ import showRouter from "./routes/showRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import adminRouter from "./routes/adminRoute.js";
 import userRouter from "./routes/userRoutes.js";
+import { stripeWebhook } from "./controllers/stripeWebhook.js";
 
 const app = express();
 const port = 3000;
@@ -20,6 +21,8 @@ const startServer = async () => {
     // add database
     await connectDB();
 
+    // stripe webhook Route
+    app.use('/api/stripe', express.raw({type: 'application/json'}), stripeWebhook)
     // middleware
     app.use(express.json());
     app.use(cors()); // helps to easily connect api from frontend to backend 
