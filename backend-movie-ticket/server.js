@@ -22,7 +22,8 @@ const startServer = async () => {
     await connectDB();
 
     // stripe webhook Route
-    app.use('/api/stripe', express.raw({type: 'application/json'}), stripeWebhook)
+    app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), stripeWebhook);
+
     // middleware
     app.use(express.json());
     app.use(cors()); // helps to easily connect api from frontend to backend 
