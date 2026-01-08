@@ -4,6 +4,7 @@ import BlurCircle from "../components/BlurCircle";
 import dateFormat from "../lib/dateFormat";
 import { useAppContext } from "../context/AppContext";
 import { useClerk } from '@clerk/clerk-react';
+import { Link } from "react-router-dom";
 
 
 function MyBooking() {
@@ -75,7 +76,7 @@ function MyBooking() {
                 <div className="flex items-center gap-4">
                   <p className="text-xl font-semibold mb-3">{currency}{item.amount}</p>
                   {
-                    !item.isPaid && <button className="bg-pink-700 hover:bg-pink-800 px-4 py-1.5 mb-3 text-md rounded-full font-medium cursor-pointer">Pay Now</button>
+                    !item.isPaid && <Link to={item.paymentLink} className="bg-pink-700 hover:bg-pink-800 px-4 py-1.5 mb-3 text-md rounded-full md:px-0.5 md:py-1 md:text-md  font-medium cursor-pointer">Pay Now</Link>
                   }
                 </div>
                 <div className="text-sm">
