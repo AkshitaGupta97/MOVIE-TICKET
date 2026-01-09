@@ -6,3 +6,9 @@
 # Stripe
 go to stripe for payment -> for payment webhook
 dashboard -> webhook -> add destination -> payment intent -> payment intent succeed -> continue -> paste backend url+ /api/stripe -> create destination -> copy signin secret
+
+#nodemailer
+install nodemailer for sending mail to user
+
+#Brevo
+to get smpt details{hostname, username, password} use Brevo

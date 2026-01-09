@@ -58,7 +58,7 @@ const syncUserUpdation = inngest.createFunction(
 // ingest function to cancle booking and release seats of show after 10 minutes of booking 
 // created if payment is not made.
 
- const releaseSeatsAndDeleteBooking = inngest.createFunction(
+const releaseSeatsAndDeleteBooking = inngest.createFunction(
     {id: 'release-seats-delete-booking'},
     {event: 'app/checkpayment'},
     // use scheduling function o inngest
@@ -83,7 +83,21 @@ const syncUserUpdation = inngest.createFunction(
             }
         })
     }
- )
+);
+
+// inngest function to send email when user books a show
+const sendBookingConfirmationEmail = inngest.createFunction(
+    {id: 'send-booking-confirmation-email'},
+    {event: 'app/show.booked'},
+    async ({event, step}) => {
+        const {bookingId} = event.data;
+
+        const booking = await Booking.findById(bookingId).populate({
+            path: 'show',
+            populate: {path: "movie", model: "Movie"}
+        }).populate('user');
+    }
+)
 
 // Create an empty array where we'll export future Inngest functions
 export const functions = [
