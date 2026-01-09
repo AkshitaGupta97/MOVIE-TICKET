@@ -5,10 +5,10 @@ import nodemailer from "nodemailer"
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com", // copy from brevo
   port: 587,
-  secure: false, // Use true for port 465, false for port 587
+ // secure: false, // Use true for port 465, false for port 587
   auth: {
-    user: process.env.SMPT_USER,
-    pass: process.env.SMPT_PASS ,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
 
@@ -19,6 +19,7 @@ const sendEmail = async ({to, subject, body}) => {
         subject,
         html: body
     })
+    return response;
 }
 
 export default sendEmail;

@@ -64,7 +64,7 @@ const releaseSeatsAndDeleteBooking = inngest.createFunction(
     { event: 'app/checkpayment' },
     // use scheduling function o inngest
     async ({ event, step }) => {
-        const tenMinutesLater = new Date(Date.now() + 10 * 60 * 100);
+        const tenMinutesLater = new Date(Date.now() + 10 * 60 * 1000);
         await step.sleepUntil('wait-for-10-minutes', tenMinutesLater);
 
         await step.run('check-payment-status', async () => {
@@ -90,13 +90,14 @@ const releaseSeatsAndDeleteBooking = inngest.createFunction(
 const sendBookingConfirmationEmail = inngest.createFunction(
     { id: 'send-booking-confirmation-email' },
     { event: 'app/show.booked' },
-    async ({ event, step }) => {
+    async ({ event }) => {
         const { bookingId } = event.data;
 
         const booking = await Booking.findById(bookingId).populate({
             path: 'show',
             populate: { path: "movie", model: "Movie" }
         }).populate('user');
+        if (!booking) return;
 
         // getting sendEmail from nodemailer
         await sendEmail({
