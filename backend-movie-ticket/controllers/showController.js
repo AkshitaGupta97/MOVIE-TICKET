@@ -6,6 +6,7 @@
 import axios from "axios"
 import Movie from "../modals/Movie.js";
 import Show from "../modals/Show.js";
+import { inngest } from "../inngest/index.js";
 
 // helper to build axios config for TMDB depending on key type (v4 bearer vs v3 api_key)
 const getTmdbConfig = () => {
@@ -96,10 +97,17 @@ export const addShow = async (req, res) => {
         });
         if(showsToCreate.length > 0) {
             const inserted = await Show.insertMany(showsToCreate);
+
+            // trigger invest event
+            await inngest.send({
+                name: "app/show.added",
+                data: {movieTicket: movie.title}
+            });
+
             return res.json({success:true, message:"Show Added successfully", inserted: inserted.length});
         }
         res.status(400).json({ success: false, message: "No valid shows to insert" });
-
+        
     } catch (error) {
         console.log("Error fron show Controller -> ", error);
         res.send({ success: false, message: error.message });

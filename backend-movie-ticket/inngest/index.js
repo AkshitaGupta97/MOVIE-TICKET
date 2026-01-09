@@ -3,6 +3,7 @@ import User from "../modals/User.js";
 import connectDB from "../config/db.js";
 import Booking from "../modals/Booking.js"
 import Show from "../modals/Show.js"
+import User from "../modals/User.js";
 import sendEmail from "../config/nodemailerBrevo.js";
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "movieTicket" });
@@ -116,6 +117,107 @@ const sendBookingConfirmationEmail = inngest.createFunction(
             `
         })
     }
+);
+
+// inngest function to send remainder
+const sendShowRemainder = inngest.createFunction(
+    { id: "send-show-remainders" },
+    { cron: "0 */8 * * *" }, // in every 8 hours
+    async ({ step }) => {
+        const now = new Date();
+        const in8Hours = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+        const windowStart = new Date(in8Hours.getTime() - 10 * 60 * 1000);
+
+        // prepaid remainder tasks
+        const remainderTasks = await step.run(
+            "prepaid-remainder-tasks", async () => {
+                const shows = await Show.find({
+                    showTime: { $gte: windowStart, $lte: in8Hours },
+                }).populate('movie');
+
+                const tasks = [];
+                for (const show of shows) {
+                    if (!show.movie || !show.occupiedSeats) continue;
+                    const userIds = [...new Set(Object.values(show.occupiedSeats))];
+                    if (userIds.length === 0) continue;
+
+                    const users = await User.find({ _id: { $in: userIds } }).select("name email");
+                    for (const user of users) {
+                        tasks.push({
+                            userEmail: user.email,
+                            userName: user.name,
+                            movieTitle: show.movie.title,
+                            showTime: show.showTime
+                        })
+                    }
+                }
+                return tasks;
+            }
+        )
+        if (remainderTasks.length === 0) {
+            return { sent: 0, message: "No remainder to send" }
+        }
+        // send remainder emails
+        const results = await step.run('send-all-remainders', async () => {
+            remainderTasks.map(task => sendEmail({
+                to: task.userEmail,
+                subject: `Remainder: Your movie "${task.movieTitle}" starts soon!`,
+                body: `
+                    <div>
+                        <h2>Hello ${task.userName},</h2>
+                        <p>🎟️This is a quick remainder that your movie:</p>
+                        <h3 className="text-amber-300">"${task.movieTitle}"</h3>
+                        <p>
+                            is scheduled for <strong>${new Date(task.showTime).toLocaleDateString('es-US', { timeZone: 'Asia/India' })}</strong>
+                            at <strong>${new Date(task.showTime).toLocaleTimeString('en-US', { timeZone: 'Asia/India' })}</strong>
+                        </p>
+                        <p>It starys in approximately <strong>8 hours</strong>-make sure you're ready!</p>
+                        <br />
+                        <p>Enjoy the Show🍿🍿 @ <span className='w-32 h-auto text-xl'> Movie<span className='text-pink-600'>Mate</span>🎬</span></p>
+                    </div>
+                `
+            }))
+        })
+        const sent = results.filter(r => r.status === 'fulfilled').length;
+        const  failed = results.length - sent;
+
+        return {
+            sent, failed,
+            message: `Sent ${sent} remainder(s), ${failed} failed.`
+        }
+
+    }
+);
+ // adding function for new show notification, when uploaded by admin
+const sendNewShowNotifications = inngest.createFunction(
+    {id: "send-new-show-notifications"},
+    {event: "app/show.added"},
+    async ({event}) => {
+        const {movieTitle, movieId} = event.data;
+        const users = await User.find({});
+
+        for(const user of users){
+            const userEmail = user.email;
+            const userName = user.name;
+
+            const subject = `🎬 New Show Added: ${movieTitle}`;
+            const body = `<div className="font-bold p-1">
+                    <h2>Hi ${userName},</h2>
+                    <p>We've just added a new shop to our libraray:</p>
+                    <h3 className="text-pink-600">"${movieTitle}"</h3>
+                    <p>Visit our website</p>
+                    <br />
+                    <p>Thanks,-  <br /><span className='w-32 h-auto text-xl'> Movie<span className='text-pink-600'>Mate</span>🎬</span></p>
+                    </div>
+                `
+            await sendEmail({
+                to: userEmail,
+                subject,
+                body,
+            })
+        }
+        return {message: "Notification sent"}
+    }
 )
 
 // Create an empty array where we'll export future Inngest functions
@@ -124,5 +226,7 @@ export const functions = [
     syncUserDeletion,
     syncUserUpdation,
     releaseSeatsAndDeleteBooking,
-    sendBookingConfirmationEmail
+    sendBookingConfirmationEmail,
+    sendShowRemainder,
+    sendNewShowNotifications
 ];
