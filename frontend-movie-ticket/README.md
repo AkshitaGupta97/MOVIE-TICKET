@@ -12,3 +12,5 @@ install nodemailer for sending mail to user
 
 #Brevo
 to get smpt details{hostname, username, password} use Brevo
+in Brevo -> home -> profile -> setting -> smpt & api 
+generate new smpt keys and paste in .env

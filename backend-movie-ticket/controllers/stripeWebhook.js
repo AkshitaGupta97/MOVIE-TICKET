@@ -20,7 +20,7 @@ export const stripeWebhook = async (req, res) => {   // defines an Express route
     }
 
     try {
-        /* switch (event.type) {
+        switch (event.type) {
              case "payment_intent.succeeded": {
                  // Handle successful payment intent
                  const paymentIntent = event.data.object;
@@ -34,14 +34,19 @@ export const stripeWebhook = async (req, res) => {   // defines an Express route
                      isPaid: true,
                      paymentLink: ""
                  })
-                 break;
+                 // sendBookingConfirmationEmail  
+                 await inngest.send({
+                    name: "app/show.booked",
+                    data: {bookingId}
+                 })
+                break;
              }
          
              default:
                  console.log(`Unhandled event type ${event.type}`);
-         }*/
+        }
 
-        switch (event.type) {
+      /*  switch (event.type) {
             case "checkout.session.completed": {
                 const session = event.data.object;
                 const { bookingId } = session.metadata;
@@ -55,7 +60,7 @@ export const stripeWebhook = async (req, res) => {   // defines an Express route
 
             default:
                 console.log(`Unhandled event type ${event.type}`);
-        }
+        }*/
 
         res.json({ received: true });
     } catch (error) {
